@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Self Introduction - Meenakshi</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #020202, #000814, #001d3d);
+      color: #e0f7fa;
+      overflow-x: hidden;
+      height: 100vh;
+    }
+
+    /* Floating particles */
+    .background {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: repeating-radial-gradient(circle at 50% 50%, rgba(0,255,200,0.1) 0, rgba(0,255,200,0.1) 2px, transparent 3px, transparent 100px);
+      animation: move 12s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes move {
+      from {background-position: 0 0;}
+      to {background-position: 100px 100px;}
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 950px;
+      margin: 60px auto;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 200, 0.3);
+      border-radius: 20px;
+      padding: 50px;
+      box-shadow: 0 0 30px rgba(0, 255, 200, 0.15);
+      backdrop-filter: blur(8px);
+      animation: fadeIn 2s ease;
+    }
+
+    h1 {
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      color: #00ffe0;
+      text-shadow: 0 0 20px #00ffe0;
+      margin-bottom: 25px;
+      letter-spacing: 2px;
+    }
+
+    p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #d8faff;
+      margin-bottom: 18px;
+      text-align: justify;
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      color: #00ffe0;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 12px #00ffe0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #88ffff;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      background: rgba(255, 255, 255, 0.05);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    footer span {
+      color: #00ffe0;
+      font-weight: 600;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background"></div>
+
+  <div class="container">
+    <h1>Self Introduction</h1>
+
+    <p>My name is <strong>Meenakshi</strong>, and I’m pursuing Cyber Security at SRM Valliammai Engineering College. I’m deeply fascinated by how technology connects the world and how every connection carries both strength and vulnerability. That curiosity naturally led me to the field of cybersecurity — a place where logic, patience, and creativity meet.</p>
+
+    <p>From my first year, I’ve been balancing the fundamentals of Physics, Chemistry, Mathematics, BEEE, and English with a growing interest in how real systems operate behind the screen. I like spending my nights experimenting, exploring new tools, and understanding how security breaches actually happen. It’s often late — sometimes after midnight — but I find focus when the world goes quiet. Those calm hours help me turn ideas into something real.</p>
+
+    <p>I enjoy learning through practice. Rather than reading about security concepts alone, I prefer testing them out in small labs, setting up systems, and trying ethical hacking tasks safely to see how things respond. I also love writing and explaining what I learn — it helps me see how far I’ve come and how much more there is to explore.</p>
+
+    <p>For me, consistency matters more than speed. Every day I try to learn something new — even a single command, a small script, or an idea. I believe in building skills step by step and growing stronger with each challenge. Whether it’s coding, analyzing data, or solving logical puzzles, I try to enjoy the process more than the result.</p>
+
+    <p>Over the next few years, I aim to become a capable cybersecurity professional who can protect systems, build safer networks, and inspire others to learn responsibly. My journey may be filled with long nights and complex problems, but that’s what makes it exciting. Curiosity is my energy drink — and it never runs out.</p>
+
+    <h2>- Meenakshi</h2>
+  </div>
+
+  <footer>
+    <p>© 2025 <span>Meenakshi</span> | Cyber Security Student | SRM Valliammai Engineering College</p>
+  </footer>
+</body>
+</html>
