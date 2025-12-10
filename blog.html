@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ooty Memories | Roadtrip Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============ Base Reset ============ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #050816;
+      --bg-alt: #070a1d;
+      --primary: #00f5ff;
+      --accent: #ff3bff;
+      --accent-soft: rgba(255, 59, 255, 0.3);
+      --text-main: #f5f7ff;
+      --text-muted: #9aa5d1;
+      --card-bg: rgba(10, 18, 40, 0.92);
+      --border-glow: rgba(0, 245, 255, 0.55);
+      --glass: rgba(10, 18, 40, 0.8);
+      --shadow-neon: 0 0 20px rgba(0, 245, 255, 0.4),
+                     0 0 40px rgba(255, 59, 255, 0.25);
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #1b1734 0, #050816 45%, #02040a 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ============ Animated Background ============ */
+    .matrix {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 245, 255, 0) 0%,
+        rgba(0, 245, 255, 0.05) 50%,
+        rgba(255, 59, 255, 0.08) 100%
+      );
+      mix-blend-mode: screen;
+      z-index: -2;
+      opacity: 0.8;
+    }
+
+    .matrix::before,
+    .matrix::after {
+      content: "";
+      position: absolute;
+      width: 1px;
+      height: 140%;
+      background: linear-gradient(to bottom, transparent, var(--primary), transparent);
+      animation: fall 8s linear infinite;
+      opacity: 0.7;
+    }
+
+    .matrix::after {
+      left: 70%;
+      animation-duration: 11s;
+      animation-delay: -4s;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0, -100%, 0);
+      }
+      100% {
+        transform: translate3d(0, 100%, 0);
+      }
+    }
+
+    /* Floating neon blobs */
+    .blob {
+      position: fixed;
+      width: 340px;
+      height: 340px;
+      border-radius: 999px;
+      filter: blur(60px);
+      opacity: 0.55;
+      z-index: -3;
+      mix-blend-mode: screen;
+      animation: float 18s ease-in-out infinite;
+    }
+
+    .blob--pink {
+      background: #ff3bff;
+      top: -60px;
+      left: -120px;
+    }
+
+    .blob--cyan {
+      background: #00f5ff;
+      bottom: -80px;
+      right: -100px;
+      animation-delay: -7s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      50% {
+        transform: translate3d(40px, -30px, 0) scale(1.08);
+      }
+    }
+
+    /* ============ Layout ============ */
+    .shell {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 18px 72px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .logo-lockup {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--border-glow);
+      background: radial-gradient(circle at 30% 30%, var(--primary), #050816 70%);
+      box-shadow: var(--shadow-neon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .logo-text span:first-child {
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    .logo-text span:last-child {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    nav {
+      display: flex;
+      gap: 16px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 3px;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width 0.25s ease-out;
+    }
+
+    nav a:hover {
+      color: var(--text-main);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ============ Hero ============ */
+    .hero {
+      position: relative;
+      margin-bottom: 32px;
+      padding: 24px 22px 26px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(15, 23, 60, 0.96), rgba(6, 10, 30, 0.9));
+      border: 1px solid rgba(0, 245, 255, 0.22);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.72);
+      overflow: hidden;
+      backdrop-filter: blur(18px);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      border: 1px solid transparent;
+      background: linear-gradient(120deg, var(--primary), transparent, var(--accent)) border-box;
+      mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      opacity: 0.6;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 22px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 38px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary));
+      opacity: 0.7;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      line-height: 1.18;
+      margin-bottom: 10px;
+      text-shadow: 0 0 22px rgba(0, 245, 255, 0.3);
+    }
+
+    .hero .tagline {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 18px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .meta-pill {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 245, 255, 0.35);
+      background: radial-gradient(circle at 20% 0%, rgba(0, 245, 255, 0.18), rgba(3, 7, 20, 0.9));
+      color: var(--text-muted);
+    }
+
+    .cta-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-primary {
+      position: relative;
+      border: none;
+      outline: none;
+      padding: 9px 18px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, var(--primary), var(--accent));
+      color: #050816;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: var(--shadow-neon);
+    }
+
+    .btn-primary span {
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn-primary::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.35), transparent 55%);
+      transform: translateX(-120%);
+      transition: transform 0.5s ease-out;
+    }
+
+    .btn-primary:hover::before {
+      transform: translateX(30%);
+    }
+
+    .btn-ghost {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      border: 1px dashed rgba(154, 165, 209, 0.5);
+      border-radius: 999px;
+      padding: 8px 13px;
+      background: rgba(5, 8, 22, 0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .btn-ghost-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, var(--accent), transparent 70%);
+      box-shadow: 0 0 12px rgba(255, 59, 255, 0.6);
+    }
+
+    .hero-visual {
+      position: relative;
+      height: 230px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 20% 0%, rgba(0, 245, 255, 0.3), transparent 65%),
+                  radial-gradient(circle at 80% 100%, rgba(255, 59, 255, 0.35), transparent 70%),
+                  linear-gradient(145deg, #050816, #050816 50%, #111827);
+      overflow: hidden;
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.85);
+    }
+
+    .hero-visual::before {
+      content: "O O T Y  //  T R I P   L O G";
+      position: absolute;
+      top: 12px;
+      left: 14px;
+      font-size: 0.64rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(232, 240, 255, 0.58);
+    }
+
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(
+        rgba(5, 0, 15, 0.6),
+        transparent 10%,
+        transparent 90%,
+        rgba(0, 0, 0, 0.85)
+      );
+      mix-blend-mode: multiply;
+    }
+
+    .road {
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%) skewX(-6deg);
+      width: 150%;
+      height: 120px;
+      background: linear-gradient(180deg, #020617, #020617 40%, #000);
+      box-shadow: 0 -15px 40px rgba(0, 0, 0, 0.9);
+      overflow: hidden;
+    }
+
+    .road::before {
+      content: "";
+      position: absolute;
+      inset: 18px 46%;
+      border-radius: 999px;
+      border: 2px dashed rgba(148, 163, 184, 0.85);
+      animation: dash 1.6s linear infinite;
+    }
+
+    @keyframes dash {
+      to {
+        transform: translateY(13px);
+      }
+    }
+
+    .car {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 38px;
+      border-radius: 12px 12px 16px 16px;
+      background: linear-gradient(120deg, #111827, #0f172a);
+      border: 2px solid rgba(148, 163, 184, 0.8);
+      box-shadow: 0 0 12px rgba(148, 163, 184, 0.8);
+      overflow: visible;
+      animation: float-car 3.5s ease-in-out infinite;
+    }
+
+    @keyframes float-car {
+      0%, 100% {
+        transform: translate(-50%, 0);
+      }
+      50% {
+        transform: translate(-50%, -6px);
+      }
+    }
+
+    .car-top {
+      position: absolute;
+      inset: -14px 16px auto;
+      height: 24px;
+      border-radius: 14px 14px 6px 6px;
+      background: linear-gradient(145deg, #020617, #020617);
+      border: 2px solid rgba(148, 163, 184, 0.8);
+      overflow: hidden;
+    }
+
+    .car-window {
+      position: absolute;
+      inset: 3px 6px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.9), rgba(15, 23, 42, 0.3));
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.7);
+    }
+
+    .car-light {
+      position: absolute;
+      right: -10px;
+      bottom: 10px;
+      width: 10px;
+      height: 6px;
+      border-radius: 3px;
+      background: radial-gradient(circle at 0 50%, #fbbf24, transparent 70%);
+      box-shadow: 0 0 25px rgba(251, 191, 36, 0.9);
+    }
+
+    .wheel {
+      position: absolute;
+      bottom: -8px;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #facc15, #020617 60%);
+      border: 3px solid #020617;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+      animation: wheel-spin 1s linear infinite;
+    }
+
+    .wheel.left {
+      left: 16px;
+    }
+
+    .wheel.right {
+      right: 16px;
+    }
+
+    @keyframes wheel-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .mountain {
+      position: absolute;
+      bottom: 58px;
+      width: 60%;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 120%, #020617 0, transparent 60%);
+      opacity: 0.7;
+    }
+
+    .mountain.left {
+      left: -5%;
+    }
+
+    .mountain.right {
+      right: -10%;
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 10% 10%, rgba(248, 250, 252, 0.8) 1px, transparent 0),
+                        radial-gradient(circle at 90% 20%, rgba(248, 250, 252, 0.6) 1px, transparent 0),
+                        radial-gradient(circle at 40% 70%, rgba(248, 250, 252, 0.5) 1px, transparent 0);
+      background-size: 120px 160px, 180px 220px, 200px 180px;
+      background-repeat: repeat;
+      opacity: 0.65;
+      animation: star Drift 22s linear infinite;
+    }
+
+    @keyframes starDrift {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(0, 12px, 0);
+      }
+    }
+
+    .badge-corner {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(5, 8, 22, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: rgba(209, 213, 219, 0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    /* ============ Blog Card ============ */
+    .entry {
+      position: relative;
+      padding: 22px 20px 24px;
+      border-radius: 20px;
+      background: var(--glass);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(18px);
+      overflow: hidden;
+    }
+
+    .entry::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      border: 1px solid transparent;
+      background: linear-gradient(135deg, rgba(0, 245, 255, 0.22), transparent, rgba(255, 59, 255, 0.16)) border-box;
+      mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      opacity: 0.4;
+    }
+
+    .entry-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .entry-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .entry-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 4px 9px;
+      background: rgba(5, 8, 22, 0.8);
+    }
+
+    .entry-divider {
+      height: 1px;
+      border: none;
+      background: linear-gradient(90deg, rgba(148, 163, 184, 0.2), rgba(0, 245, 255, 0.8), rgba(148, 163, 184, 0.15));
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+
+    .entry-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .entry-body {
+      font-size: 0.93rem;
+      line-height: 1.7;
+      color: var(--text-main);
+      opacity: 0.95;
+      text-align: justify;
+    }
+
+    .entry-body p + p {
+      margin-top: 12px;
+    }
+
+    .entry-highlight {
+      position: relative;
+      margin: 16px 0;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px dashed rgba(0, 245, 255, 0.4);
+      background: radial-gradient(circle at 0 0, rgba(0, 245, 255, 0.2), rgba(5, 8, 22, 0.9));
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .entry-highlight-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--primary);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .entry-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 18px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .entry-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.65);
+      background: rgba(5, 8, 22, 0.92);
+    }
+
+    .scroll-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .scroll-indicator-dot {
+      width: 6px;
+      height: 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-indicator-dot::before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      right: 2px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.9);
+      animation: scrollDot 1.6s ease-in-out infinite;
+    }
+
+    @keyframes scrollDot {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(4px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    /* ============ Reveal Animation ============ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.7s ease-out forwards;
+    }
+
+    .fade-up.delay-1 {
+      animation-delay: 0.15s;
+    }
+
+    .fade-up.delay-2 {
+      animation-delay: 0.3s;
+    }
+
+    .fade-up.delay-3 {
+      animation-delay: 0.45s;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ============ Responsive ============ */
+    @media (max-width: 720px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-visual {
+        height: 200px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .shell {
+        padding-inline: 14px;
+      }
+
+      .hero {
+        padding: 18px 16px 20px;
+      }
+
+      .entry {
+        padding: 16px 14px 18px;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- animated background -->
+  <div class="matrix"></div>
+  <div class="blob blob--pink"></div>
+  <div class="blob blob--cyan"></div>
+
+  <div class="shell">
+    <header class="fade-up">
+      <div class="logo-lockup">
+        <div class="logo-mark">OB</div>
+        <div class="logo-text">
+          <span>Memory Log</span>
+          <span>Ooty Roadtrip Blog</span>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#trip">Trip Log</a>
+        <a href="#feelings">Feelings</a>
+        <a href="#future">Future Plans</a>
+        <a href="https://your-main-portfolio-domain.com" target="_blank" rel="noreferrer">
+          Main Site
+        </a>
+      </nav>
+    </header>
+
+    <section class="hero fade-up delay-1">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">11th Grade Roadtrip • Ooty</div>
+          <h1>Hills, Friends, and a Thar: Ooty Logged in Neon.</h1>
+          <p class="tagline">
+            A holiday roadtrip with three boys, two girls, a Thar, and a heart full of nature, laughter, and a little bit of nostalgia for everything that ended too soon.
+          </p>
+          <div class="hero-meta">
+            <span class="meta-pill">Drive: School holidays</span>
+            <span class="meta-pill">Gang: 3 boys • 2 girls</span>
+            <span class="meta-pill">Destination: Ooty, Tamil Nadu</span>
+          </div>
+          <div class="cta-row">
+            <button class="btn-primary" onclick="document.getElementById('trip').scrollIntoView({behavior:'smooth'})">
+              <span>Read Trip Story</span>
+            </button>
+            <button class="btn-ghost" onclick="document.getElementById('future').scrollIntoView({behavior:'smooth'})">
+              <span class="btn-ghost-dot"></span>
+              Future dreams
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="stars"></div>
+          <div class="mountain left"></div>
+          <div class="mountain right"></div>
+          <div class="road"></div>
+          <div class="car">
+            <div class="car-top">
+              <div class="car-window"></div>
+            </div>
+            <div class="car-light"></div>
+            <div class="wheel left"></div>
+            <div class="wheel right"></div>
+          </div>
+          <span class="badge-corner">Neo-Travel • v01</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="trip" class="entry fade-up delay-2">
+      <div class="entry-header">
+        <h2 class="entry-title">The Day We Drove to Ooty</h2>
+        <span class="entry-tag">Trip Log</span>
+      </div>
+      <hr class="entry-divider" />
+      <div class="entry-meta">
+        <span>Crew: 3 boys, 2 girls, and our driver in the Thar.</span>
+        <span>Vibe: Nature lovers • Camera-ready • Post-exam freedom.</span>
+      </div>
+      <div class="entry-body">
+        <p>
+          It started on a holiday afternoon, right after finishing our exams at 12:30 pm. We left school with that light, free feeling that only comes when the last bell rings and the question papers are finally over. At home, bags were already packed, snacks were ready, and by 1:30 pm my friends reached my place, full of excitement for the road ahead.
+        </p>
+        <p>
+          The Thar was waiting outside, and I took the passenger seat in front while my friends settled into the back with the camera and tripod. As the car started moving towards Ooty, the road slowly turned greener, the air cooler, and our conversations louder. Every turn in the hill road felt like a new scene in a movie only we could see, and every laugh felt like it got stored somewhere in the mountains.
+        </p>
+        <p>
+          When we reached Ooty, one of the first places we visited was Ooty Lake. The water was calm, the tall trees stood like silent guardians around it, and the whole place felt peaceful and still. We took photos, posed with the lake behind us, and tried to capture every little detail so that one day, when we looked back, the memories would still feel fresh and alive.
+        </p>
+
+        <div class="entry-highlight" id="feelings">
+          <span class="entry-highlight-label">Emotion Core</span>
+          The cold wind at the highest point in Ooty hit our faces and made us laugh without any reason. In that moment, there was no exam stress, no future worries, only the sound of the wind, our voices, and the feeling that this was one of those days that would stay forever in memory.
+        </div>
+
+        <p>
+          The highest point of Ooty felt like the world was opening up in layers of blue hills and soft clouds. Standing there with the gang, the wind was so strong and cold that it almost pushed us into laughter. It was the kind of happiness that does not need music or filters, just friends, open skies, and a view that makes everything else feel small.
+        </p>
+        <p>
+          Leaving Ooty on the return journey felt strangely emotional. As the hills slowly went down behind us, there was a quiet mix of joy and longing inside. Joy, because the trip was beautiful and complete. Longing, because a part of the heart wanted to pause time and stay in that car, on that road, with the same people, just a little longer.
+        </p>
+      </div>
+
+      <div class="entry-footer">
+        <div class="entry-tags">
+          <span class="chip">#Ooty</span>
+          <span class="chip">#SchoolTrip</span>
+          <span class="chip">#TharDrive</span>
+          <span class="chip">#NatureLover</span>
+        </div>
+        <div class="scroll-indicator">
+          <span class="scroll-indicator-dot"></span>
+          <span>Scroll for future plans</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="future" class="entry fade-up delay-3" style="margin-top: 20px;">
+      <div class="entry-header">
+        <h2 class="entry-title">Dreaming of Going Back</h2>
+        <span class="entry-tag">Future Plans</span>
+      </div>
+      <hr class="entry-divider" />
+      <div class="entry-body">
+        <p>
+          Whenever the return journey comes to mind, it brings a soft ache along with the happiness. The road down from the hills taught a simple truth: every moment eventually turns into a memory, but some memories stay glowing in the background of life, no matter how much time passes. This Ooty trip is one of those memories.
+        </p>
+        <p>
+          There is a quiet dream of going back again someday, maybe with the same friends, maybe with new stories but the same mountains around. Next time, there is a wish to explore more hidden corners of Ooty, spend longer among the tea estates, and sit in silence while watching the sunrise from the hills. The journey might feel different in the future, but the beauty of Ooty, the cold wind, and the calm lake will always feel the same.
+        </p>
+      </div>
+      <div class="entry-footer">
+        <div class="entry-tags">
+          <span class="chip">#SomedayAgain</span>
+          <span class="chip">#TeaEstates</span>
+          <span class="chip">#SunriseGoals</span>
+        </div>
+        <span>Log: Ooty Memory • Saved.</span>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // optional small enhancement: re-trigger fade-up on reload
+    window.addEventListener("load", () => {
+      document.querySelectorAll(".fade-up").forEach((el) => {
+        el.style.animationPlayState = "running";
+      });
+    });
+  </script>
+</body>
+</html>
